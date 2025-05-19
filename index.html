@@ -1,0 +1,317 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fitness Center Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4a90e2;
+      --bg: #f9f9fb;
+      --card-bg: #fff;
+      --text: #333;
+      --border: #e0e0e0;
+      --radius: 12px;
+      --sidebar-bg: #2c3e50;
+      --sidebar-text: #ecf0f1;
+      --hover: #34495e;
+    }
+    * {margin:0;padding:0;box-sizing:border-box;}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-block-size: 100vh;
+    }
+    .sidebar {
+      background: var(--sidebar-bg);
+      inline-size: 250px;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: transform 0.3s ease;
+    }
+    .sidebar h2 {color: var(--sidebar-text); margin-block-end: 20px;}
+    .sidebar a {
+      color: var(--sidebar-text);
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .sidebar a:hover {
+      background: var(--hover);
+    }
+    .content {
+      flex: 1;
+      padding: 40px;
+    }
+    section {
+      background: var(--card-bg);
+      margin-block-end: 40px;
+      padding: 30px;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      animation: fadeIn 0.5s ease;
+    }
+    h1 {margin-block-end: 30px; color: var(--primary);}
+    h2 {margin-block-end: 20px; color: var(--primary); border-inline-start: 5px solid var(--primary); padding-inline-start: 10px;}
+    h3 {margin-block-end: 15px; color: #444;}
+    form label {display: block; margin-block-start: 15px; font-weight: 600;}
+    form input,
+    form textarea,
+    form button {
+      inline-size: 100%;
+      padding: 10px;
+      margin-block-start: 5px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-block-end: 10px;
+    }
+    form button {
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+    form button:hover {background: #357ab8;}
+    .button-group {
+        display: flex;
+        gap: 10px;
+        margin-block-start: 10px;
+    }
+    .button-group button {
+        flex-grow: 1;
+    }
+    table {
+      inline-size: 100%;
+      border-collapse: collapse;
+      margin-block-start: 20px;
+    }
+    table thead {
+      background: var(--primary);
+      color: white;
+    }
+    table th,
+    table td {
+      padding: 10px;
+      border: 1px solid var(--border);
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .overlay {
+        display: none;
+        position: fixed;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        inline-size: 100%;
+        block-size: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Ensure it's on top */
+    }
+    .modal {
+        background-color: var(--card-bg);
+        padding: 30px;
+        border-radius: var(--radius);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .modal h2 {
+        color: var(--primary);
+        margin-block-end: 20px;
+    }
+    .modal p {
+        margin-block-end: 20px;
+    }
+    .modal button {
+        background-color: #dc3545; /* Example close button color */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .modal button:hover {
+        background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Dashboard</h2>
+    <a href="#instructors">Instructors</a>
+    <a href="#members">Members</a>
+    <a href="#schedules">Schedules</a>
+    <a href="#classes">Classes</a>
+    <a href="#plans">Plans</a>
+    <a href="#assessments">Assessments</a>
+  </div>
+
+  <div class="content">
+    <h1>Fitness Center Management</h1>
+
+    <section id="instructors">
+      <h2>Instructors Management</h2>
+      <form>
+        <label>Instructor ID</label><input type="text">
+        <label>Full Name</label><input type="text">
+        <label>Email</label><input type="email">
+        <label>Salary</label><input type="text">
+        <button type="button" class="show-page-btn" data-page="add-instructor">Add Instructor</button>
+        <div class="button-group">
+            <button type="button" class="show-page-btn" data-page="delete-instructor">Delete Instructor</button>
+          </div>
+      </form>
+      <h3>Data</h3>
+      <table>
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Salary</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="members">
+      <h2>Members Management</h2>
+      <form>
+        <label>Member ID</label><input type="text">
+        <label>Full Name</label><input type="text">
+        <label>Address</label><input type="text">
+        <button type="button" class="show-page-btn" data-page="add-member">Add Member</button>
+        <div class="button-group">
+            <button type="button" class="show-page-btn" data-page="delete-member">Delete Member</button>
+            <button type="button" class="show-page-btn" data-page="update-member">Update Member</button>
+          </div>
+      </form>
+      <h3>Data</h3>
+      <table>
+        <thead><tr><th>ID</th><th>Name</th><th>Address</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="schedules">
+      <h2>Schedules Management</h2>
+      <form>
+        <label>Schedule ID</label><input type="text">
+        <label>Location</label><input type="text">
+        <label>Start</label><input type="datetime-local">
+        <label>End</label><input type="datetime-local">
+        <button type="button" class="show-page-btn" data-page="add-schedule">Add Schedule</button>
+        <div class="button-group">
+            <button type="button" class="show-page-btn" data-page="delete-schedule">Delete Schedule</button>
+            <button type="button" class="show-page-btn" data-page="update-schedule">Update Schedule</button>
+          </div>
+      </form>
+      <h3>Data</h3>
+      <table>
+        <thead><tr><th>ID</th><th>Location</th><th>Start</th><th>End</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="classes">
+      <h2>Classes Management</h2>
+      <form>
+        <label>Class ID</label><input type="text">
+        <label>Instructor Name</label><input type="text">
+        <label>Schedule</label><input type="datetime-local">
+        <button type="button" class="show-page-btn" data-page="add-class">Add Class</button>
+        <div class="button-group">
+            <button type="button" class="show-page-btn" data-page="delete-class">Delete Class</button>
+          </div>
+      </form>
+      <h3>Data</h3>
+      <table>
+        <thead><tr><th>ID</th><th>Instructor</th><th>Schedule</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="plans">
+      <h2>Membership Plans</h2>
+      <form>
+        <label>Price</label><input type="text">
+        <label>Plan Name</label><input type="text">
+        <label>Benefits</label><textarea></textarea>
+        <button type="button" class="show-page-btn" data-page="add-plan">Add Plan</button>
+        <div class="button-group">
+            <button type="button" class="show-page-btn" data-page="delete-plan">Delete Plan</button>
+            <button type="button" class="show-page-btn" data-page="update-plan">Update Plan</button>
+          </div>
+      </form>
+      <h3>Data</h3>
+      <table>
+        <thead><tr><th>Price</th><th>Name</th><th>Benefits</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="assessments">
+      <h2>Health Assessments</h2>
+      <form>
+        <label>Assessment ID</label><input type="text">
+        <label>Date</label><input type="date">
+        <label>Weight</label><input type="text">
+        <button type="button" class="show-page-btn" data-page="add-assessment">Add Assessment</button>
+        <div class="button-group">
+            <button type="button" class="show-page-btn" data-page="delete-assessment">Delete Assessment</button>
+            <button type="button" class="show-page-btn" data-page="update-assessment">Update Assessment</button>
+          </div>
+      </form>
+      <h3>Data</h3>
+      <table>
+        <thead><tr><th>ID</th><th>Date</th><th>Weight</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+  </div>
+
+  <div id="overlay" class="overlay">
+    <div id="modal" class="modal">
+      <h2 id="modal-title"></h2>
+      <p id="modal-content"></p>
+      <button id="close-modal">Close</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const showPageButtons = document.querySelectorAll('.show-page-btn');
+      const overlay = document.getElementById('overlay');
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalContent = document.getElementById('modal-content');
+      const closeModalButton = document.getElementById('close-modal');
+
+      showPageButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const page = this.getAttribute('data-page');
+          modalTitle.textContent = page.replace('-', ' ').toUpperCase();
+          modalContent.textContent =" This is the content of the \"" + page + "\" page. you can implement specific actions or forms here .";
+          overlay.style.display = 'flex';
+        });
+      });
+
+      closeModalButton.addEventListener('click', function() {
+        overlay.style.display = 'none';
+      });
+
+      
+      window.addEventListener('click', function(event) {
+        if (event.target === overlay) {
+          overlay.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
